@@ -4,6 +4,9 @@ import org.htmlparser.filters.HasAttributeFilter;
 import org.htmlparser.util.NodeList;
 import org.htmlparser.util.ParserException;
 
+/*
+ * www.hallab.co.jp/diary/ の日記記事１つの内容を記憶しておくクラス
+ */
 public class HalLabEntry {
 
     private static final String CLASS      = "CLASS";
@@ -16,7 +19,6 @@ public class HalLabEntry {
     private String mBody;
 
     HalLabEntry(String EntryUrl) {
-
         try {
             Parser parser   = new Parser(EntryUrl);
             NodeList list   = parser.parse(new HasAttributeFilter(CLASS, TITLEVALUE));
@@ -52,10 +54,6 @@ public class HalLabEntry {
         return mTitle;
     }
 
-    public String getBody() {
-        return mBody;
-    }
-
     public String getDate() {
         return mDate;
     }
@@ -68,4 +66,7 @@ public class HalLabEntry {
         return mJob;
     }
 
+    public String getBody() {
+        return mBody;
+    }
 }
