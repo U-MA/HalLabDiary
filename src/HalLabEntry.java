@@ -9,7 +9,6 @@ public class HalLabEntry {
 
     private static final String CLASS      = "CLASS";
     private static final String TITLEVALUE = "diarytitle";
-    private static final String BODYVALUE  = "diarybody";
 
     private String mTitle;
     private String mDate;
@@ -27,11 +26,8 @@ public class HalLabEntry {
             mDate   = title.elementAt(0).getNextSibling().getFirstChild().getFirstChild().getText();
             mAuthor = title.elementAt(0).getNextSibling().getFirstChild().getNextSibling().getFirstChild().getText();
 
-            parser.reset();
-            parser.setResource(EntryUrl);
-            NodeFilter bodyFilter = new HasAttributeFilter(CLASS, BODYVALUE);
-            NodeList body = parser.parse(bodyFilter);
-            Node node = body.elements().nextNode().getFirstChild();
+            Node node = title.elementAt(0).getNextSibling().getNextSibling().getFirstChild().getNextSibling();
+            System.out.println(node.getText());
 
             StringBuilder sb = new StringBuilder();
             while (node.getNextSibling() != null) {
@@ -46,7 +42,20 @@ public class HalLabEntry {
         }
     }
 
+    public String getTitle() {
+        return mTitle;
+    }
+
     public String getBody() {
         return mBody;
     }
+
+    public String getDate() {
+        return mDate;
+    }
+
+    public String getAuthor() {
+        return mAuthor;
+    }
+
 }
