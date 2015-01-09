@@ -20,7 +20,8 @@ public class HalLabEntry {
         try {
             Parser parser = new Parser(EntryUrl);
             NodeList list = parser.parse(new HasAttributeFilter(CLASS, TITLEVALUE));
-            mTitle  = list.elementAt(0).getFirstChild().getText();
+            Node titleNode = list.elementAt(0).getFirstChild();
+            mTitle  = titleNode.getText();
             mDate   = list.elementAt(0).getNextSibling().getFirstChild().getFirstChild().getText();
             mAuthor = list.elementAt(0).getNextSibling().getFirstChild().getNextSibling().getFirstChild().getText();
 
