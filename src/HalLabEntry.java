@@ -18,15 +18,22 @@ public class HalLabEntry {
     HalLabEntry(String EntryUrl) {
 
         try {
-            Parser parser = new Parser(EntryUrl);
-            NodeList list = parser.parse(new HasAttributeFilter(CLASS, TITLEVALUE));
-            Node titleNode = list.elementAt(0).getFirstChild();
+            Parser parser   = new Parser(EntryUrl);
+            NodeList list   = parser.parse(new HasAttributeFilter(CLASS, TITLEVALUE));
+            Node titleNode  = list.elementAt(0).getFirstChild();
+            Node dateNode   = list.elementAt(0).getNextSibling().getFirstChild().getFirstChild();
+            Node authorNode = list.elementAt(0).getNextSibling().getFirstChild().getNextSibling().getFirstChild();
+
             mTitle  = titleNode.getText();
-            mDate   = list.elementAt(0).getNextSibling().getFirstChild().getFirstChild().getText();
-            mAuthor = list.elementAt(0).getNextSibling().getFirstChild().getNextSibling().getFirstChild().getText();
+            mDate   = dateNode.getText();
+
+            String authorAndJob = authorNode.getText();
+            int i = authorAndJob.indexOf('\t');
+            int j = authorAndJob.lastIndexOf('\t');
+            mAuthor = authorAndJob.substring(0, i-1);
+            mJob    = authorAndJob.substring(j+2, authorAndJob.length());
 
             Node node = list.elementAt(0).getNextSibling().getNextSibling().getFirstChild().getNextSibling();
-            System.out.println(node.getText());
 
             StringBuilder sb = new StringBuilder();
             while (node.getNextSibling() != null) {
@@ -55,6 +62,10 @@ public class HalLabEntry {
 
     public String getAuthor() {
         return mAuthor;
+    }
+
+    public String getJob() {
+        return mJob;
     }
 
 }
