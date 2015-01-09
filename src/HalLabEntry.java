@@ -7,22 +7,29 @@ import org.htmlparser.util.ParserException;
 
 public class HalLabEntry {
 
+    private static final String CLASS      = "CLASS";
+    private static final String TITLEVALUE = "diarytitle";
+    private static final String BODYVALUE  = "diarybody";
+
     private String mTitle;
     private String mDate;
     private String mAuthor;
+    private String mJob;
     private String mBody;
 
     HalLabEntry(String EntryUrl) {
 
         try {
             Parser parser = new Parser(EntryUrl);
-            NodeFilter titleFilter = new HasAttributeFilter("CLASS", "diarytitle");
+            NodeFilter titleFilter = new HasAttributeFilter(CLASS, TITLEVALUE);
             NodeList title = parser.parse(titleFilter);
-            mTitle = title.elementAt(0).getFirstChild().getText();
+            mTitle  = title.elementAt(0).getFirstChild().getText();
+            mDate   = title.elementAt(0).getNextSibling().getFirstChild().getFirstChild().getText();
+            mAuthor = title.elementAt(0).getNextSibling().getFirstChild().getNextSibling().getFirstChild().getText();
 
             parser.reset();
             parser.setResource(EntryUrl);
-            NodeFilter bodyFilter = new HasAttributeFilter("CLASS", "diarybody");
+            NodeFilter bodyFilter = new HasAttributeFilter(CLASS, BODYVALUE);
             NodeList body = parser.parse(bodyFilter);
             Node node = body.elements().nextNode().getFirstChild();
 
