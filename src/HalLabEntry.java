@@ -1,5 +1,4 @@
 import org.htmlparser.Node;
-import org.htmlparser.NodeFilter;
 import org.htmlparser.Parser;
 import org.htmlparser.filters.HasAttributeFilter;
 import org.htmlparser.util.NodeList;
