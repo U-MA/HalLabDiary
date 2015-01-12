@@ -32,11 +32,15 @@ public class HalLabDiary {
             TagNode tag = (TagNode) nodeList.elementAt(0).getNextSibling().getNextSibling();
             String detail = Arrays.asList(tag.getFirstChild().getText().split("/")).get(1);
             String diaryUrl = DIARYDETAIL + detail.substring(0, detail.length()-1);
-            System.out.println(tag.getFirstChild().getFirstChild().getText());
-            System.out.println(tag.getNextSibling().getFirstChild().getFirstChild().getText());
+            System.out.println(tag.getFirstChild().getFirstChild().getText()); /// title
+            System.out.println(tag.getNextSibling().getFirstChild().getFirstChild().getText()); // date
+
+            // author and job
             System.out.println(tag.getNextSibling().getFirstChild().getNextSibling().getFirstChild().getText());
 
+            // entry url
             System.out.println(diaryUrl);
+
             URL url1 = new URL(diaryUrl);
             URLConnection connection1 = url1.openConnection();
             BufferedReader in1 = new BufferedReader(new InputStreamReader(connection1.getInputStream(), "euc-jp"));
