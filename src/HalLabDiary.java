@@ -16,18 +16,9 @@ public class HalLabDiary {
 
     public static void main(String[] args) {
         try {
-            URL url = new URL(DIARYURL);
-            URLConnection connection = url.openConnection();
-            BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream(), "euc-jp"));
-            StringBuilder response = new StringBuilder();
-            String line;
-            while ((line = in.readLine()) != null) {
-                String tmp = line + "\n";
-                response.append(tmp);
-            }
-            in.close();
+            String parserIn = htmlSource(DIARYURL);
 
-            Parser parser = new Parser(response.toString());
+            Parser parser = new Parser(parserIn);
             NodeList nodeList = parser.parse(new HasAttributeFilter("clear", "all"));
             TagNode tag = (TagNode) nodeList.elementAt(0).getNextSibling().getNextSibling();
             String detail = Arrays.asList(tag.getFirstChild().getText().split("/")).get(1);
@@ -41,23 +32,32 @@ public class HalLabDiary {
             // entry url
             System.out.println(diaryUrl);
 
-            URL url1 = new URL(diaryUrl);
-            URLConnection connection1 = url1.openConnection();
-            BufferedReader in1 = new BufferedReader(new InputStreamReader(connection1.getInputStream(), "euc-jp"));
-            StringBuilder response1 = new StringBuilder();
-            String line1;
-            while ((line1 = in1.readLine()) != null) {
-                String tmp = line1 + "\n";
-                response1.append(tmp);
-            }
-            in1.close();
-
-            HalLabEntry entry = new HalLabEntry(response1.toString());
+            String entryIn = htmlSource(diaryUrl);
+            HalLabEntry entry = new HalLabEntry(entryIn);
             System.out.println(entry.getBody());
-        } catch (IOException e) {
-            e.printStackTrace();
         } catch (ParserException e) {
             e.printStackTrace();
+        }
+    }
+
+    private static String htmlSource(String url) {
+        try {
+            URL u = new URL(url);
+            URLConnection connection = u.openConnection();
+            BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream(), "euc-jp"));
+            StringBuilder response = new StringBuilder();
+            String line;
+            while ((line = in.readLine()) != null) {
+                String tmp = line + "\n";
+                response.append(tmp);
+            }
+            in.close();
+
+            return response.toString();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
         }
     }
 }
