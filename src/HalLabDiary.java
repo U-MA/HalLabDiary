@@ -86,6 +86,7 @@ public class HalLabDiary {
         }
     }
 
+    // 引数のURLのHTMLソースを取得する
     private static String htmlSource(String url) {
         try {
             URL u = new URL(url);
