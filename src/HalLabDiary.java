@@ -81,14 +81,14 @@ public class HalLabDiary {
     private static void printEntry(HalLabEntry entry) {
         System.out.println("[Title ] " + entry.getTitle());
         System.out.println("[Date  ] " + entry.getDate());
-        System.out.println("[Author] " + entry.getAuthor() + "(" + entry.getJob() + ")");
+        System.out.println("[Author] " + entry.getAuthor() + "(" + entry.getJob() + " )");
         System.out.print(entry.getBody());
     }
 
     private static void printTitles(String[] titles, String[] dates, String[] authorsAndJobs, int n) {
         for (int i = 0; i < n; ++i) {
             System.out.print("(" + i + ")");
-            System.out.println(authorsAndJobs[i] + " [ " + titles[i] + " ] ( " + dates[i] + ")");
+            System.out.println(authorsAndJobs[i] + " [ " + titles[i] + " ] ( " + dates[i] + " )");
         }
     }
 
