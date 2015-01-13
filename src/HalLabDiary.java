@@ -12,21 +12,21 @@ import java.util.Arrays;
 
 public class HalLabDiary {
 
-    private static final String DIARYURL = "http://www.hallab.co.jp/diary/index.php";
-    private static final String DIARYDETAIL = "http://www.hallab.co.jp/diary/";
+    private static final String DIARYURL   = "http://www.hallab.co.jp/diary/";
+    private static final String DIARYINDEX = DIARYURL + "index.php";
 
     public static void main(String[] args) {
 
         // show the latest entry
         if (args.length == 0) {
             try {
-                String parseIn = htmlSource(DIARYURL);
+                String parseIn = htmlSource(DIARYINDEX);
 
                 Parser parser = new Parser(parseIn);
                 NodeList nodeList = parser.parse(new HasAttributeFilter("clear", "all"));
                 TagNode tag = (TagNode) nodeList.elementAt(0).getNextSibling().getNextSibling();
                 String detail = Arrays.asList(tag.getFirstChild().getText().split("/")).get(1);
-                String entryUrl = DIARYDETAIL + detail.substring(0, detail.length() - 1);
+                String entryUrl = DIARYURL + detail.substring(0, detail.length() - 1);
                 HalLabEntry latestEntry = new HalLabEntry(entryUrl);
 
                 System.out.println("[Title ] " + latestEntry.getTitle());
@@ -50,7 +50,7 @@ public class HalLabDiary {
         } else {
 
             try {
-                String parserIn = htmlSource(DIARYURL);
+                String parserIn = htmlSource(DIARYINDEX);
 
                 Parser parser = new Parser(parserIn);
                 NodeList nodeList = parser.parse(new HasAttributeFilter("clear", "all"));
@@ -66,7 +66,7 @@ public class HalLabDiary {
                     authorsAndJobs[i] = node.getNextSibling().getFirstChild().getNextSibling().getFirstChild().getText();
 
                     String detail = Arrays.asList(node.getFirstChild().getText().split("/")).get(1);
-                    String diaryUrl = DIARYDETAIL + detail.substring(0, detail.length() - 1);
+                    String diaryUrl = DIARYURL + detail.substring(0, detail.length() - 1);
                     diaryDetails[i] = diaryUrl;
 
                     node = node.getNextSibling().getNextSibling();
