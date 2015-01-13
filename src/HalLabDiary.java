@@ -1,3 +1,4 @@
+import org.htmlparser.Node;
 import org.htmlparser.Parser;
 import org.htmlparser.filters.HasAttributeFilter;
 import org.htmlparser.nodes.TagNode;
@@ -36,7 +37,7 @@ public class HalLabDiary {
                 e.printStackTrace();
             }
         }
-        else if (args[0].equals("help") ) {
+        else if (args[0].equals("help") ) { // show the usage
             System.out.println("Usage: java HalLabDiary <option>");
             System.out.println("");
             System.out.println("Description:");
@@ -53,21 +54,43 @@ public class HalLabDiary {
 
                 Parser parser = new Parser(parserIn);
                 NodeList nodeList = parser.parse(new HasAttributeFilter("clear", "all"));
-                TagNode tag = (TagNode) nodeList.elementAt(0).getNextSibling().getNextSibling();
-                String detail = Arrays.asList(tag.getFirstChild().getText().split("/")).get(1);
-                String diaryUrl = DIARYDETAIL + detail.substring(0, detail.length() - 1);
-                System.out.println(tag.getFirstChild().getFirstChild().getText()); /// title
-                System.out.println(tag.getNextSibling().getFirstChild().getFirstChild().getText()); // date
 
-                // author and job
-                System.out.println(tag.getNextSibling().getFirstChild().getNextSibling().getFirstChild().getText());
+                String[] diaryDetails = new String[10];
+                String[] titles = new String[10];
+                String[] dates  = new String[10];
+                String[] authorsAndJobs = new String[10];
+                Node node = nodeList.elementAt(0).getNextSibling().getNextSibling();
+                for (int i=0; i < 10; ++i) {
+                    titles[i] = node.getFirstChild().getFirstChild().getText();
+                    dates[i]  = node.getNextSibling().getFirstChild().getFirstChild().getText();
+                    authorsAndJobs[i] = node.getNextSibling().getFirstChild().getNextSibling().getFirstChild().getText();
 
-                // entry url
-                System.out.println(diaryUrl);
+                    String detail = Arrays.asList(node.getFirstChild().getText().split("/")).get(1);
+                    String diaryUrl = DIARYDETAIL + detail.substring(0, detail.length() - 1);
+                    diaryDetails[i] = diaryUrl;
 
-                String entryIn = htmlSource(diaryUrl);
-                HalLabEntry entry = new HalLabEntry(entryIn);
-                System.out.println(entry.getBody());
+                    node = node.getNextSibling().getNextSibling();
+                }
+
+                if (args[0].equals("title")) {
+                    for (int i = 0; i < 10; ++i) {
+                        System.out.print("(" + i + ")");
+                        System.out.println(authorsAndJobs[i] + " [ " + titles[i] + " ] ( " + dates[i] + ")");
+                    }
+                } else {
+                    try {
+                        int id = Integer.parseInt(args[0]);
+                        String entryIn = diaryDetails[id];
+                        HalLabEntry entry = new HalLabEntry(entryIn);
+
+                        System.out.println(entry.getTitle());
+                        System.out.print(entry.getAuthor());
+                        System.out.println(entry.getBody());
+                    }
+                    catch (NumberFormatException e) {
+                        e.printStackTrace();
+                    }
+                }
             } catch (ParserException e) {
                 e.printStackTrace();
             }
