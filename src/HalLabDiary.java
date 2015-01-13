@@ -17,6 +17,11 @@ public class HalLabDiary {
 
     public static void main(String[] args) {
 
+        if (args[0].equals("help")) {
+            usage();
+            System.exit(0);
+        }
+
         // show the latest entry
         if (args.length == 0) {
             try {
@@ -30,17 +35,6 @@ public class HalLabDiary {
             } catch (ParserException e) {
                 e.printStackTrace();
             }
-        }
-        else if (args[0].equals("help") ) {
-            System.out.println("Usage: java HalLabDiary <option>");
-            System.out.println("");
-            System.out.println("Description:");
-            System.out.println("ハル研究所の日記を見ることが出来ます。\n" +
-                    "引数なしでは、最新の日記が表示されます。");
-            System.out.println("");
-            System.out.println("Option:");
-            System.out.println("[0-9]: 指定した番目の記事を表示する。");
-            System.out.println("title: タイトル一覧の表示");
         } else {
 
             try {
@@ -113,6 +107,18 @@ public class HalLabDiary {
         System.out.println("[Date  ] " + entry.getDate());
         System.out.println("[Author] " + entry.getAuthor() + "(" + entry.getJob() + ")");
         System.out.print(entry.getBody());
+    }
+
+    private static void usage() {
+        System.out.println("Usage: java HalLabDiary <option>");
+        System.out.println("");
+        System.out.println("Description:");
+        System.out.println("ハル研究所の日記を見ることが出来ます。\n" +
+                "引数なしでは、最新の日記が表示されます。");
+        System.out.println("");
+        System.out.println("Option:");
+        System.out.println("[0-9]: 指定した番目の記事を表示する。");
+        System.out.println("title: タイトル一覧の表示");
     }
 
 }
