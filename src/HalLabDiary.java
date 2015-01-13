@@ -34,8 +34,7 @@ public class HalLabDiary {
         // show the latest entry
         if (args.length == 0) {
             Node node = nodeList.elementAt(0).getNextSibling().getNextSibling();
-            String detail = Arrays.asList(node.getFirstChild().getText().split("/")).get(1);
-            String entryUrl = DIARYURL + detail.substring(0, detail.length() - 1);
+            String entryUrl = getEntryUrl(node);
             HalLabEntry latestEntry = new HalLabEntry(entryUrl);
             printEntry(latestEntry);
         } else {
@@ -49,9 +48,7 @@ public class HalLabDiary {
                 dates[i]  = node.getNextSibling().getFirstChild().getFirstChild().getText();
                 authorsAndJobs[i] = node.getNextSibling().getFirstChild().getNextSibling().getFirstChild().getText();
 
-                String detail = Arrays.asList(node.getFirstChild().getText().split("/")).get(1);
-                String diaryUrl = DIARYURL + detail.substring(0, detail.length() - 1);
-                diaryDetails[i] = diaryUrl;
+                diaryDetails[i] = getEntryUrl(node);
 
                 node = node.getNextSibling().getNextSibling();
             }
@@ -114,6 +111,11 @@ public class HalLabDiary {
         System.out.println("Option:");
         System.out.println("[0-9]: 指定した番目の記事を表示する。");
         System.out.println("title: タイトル一覧の表示");
+    }
+
+    private static String getEntryUrl(Node parent) {
+        String detail = Arrays.asList(parent.getFirstChild().getText().split("/")).get(1);
+        return DIARYURL + detail.substring(0, detail.length() - 1);
     }
 
 }
