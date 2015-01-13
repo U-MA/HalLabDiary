@@ -22,60 +22,56 @@ public class HalLabDiary {
             System.exit(0);
         }
 
+        Parser parser;
+        NodeList nodeList = null;
+        try {
+            parser = new Parser(htmlSource(DIARYINDEX));
+            nodeList = parser.parse(new HasAttributeFilter("clear", "all"));
+        } catch (ParserException e) {
+            e.printStackTrace();
+            System.exit(1);
+        }
+
         // show the latest entry
         if (args.length == 0) {
-            try {
-                Parser parser = new Parser(htmlSource(DIARYINDEX));
-                NodeList nodeList = parser.parse(new HasAttributeFilter("clear", "all"));
-                TagNode tag = (TagNode) nodeList.elementAt(0).getNextSibling().getNextSibling();
-                String detail = Arrays.asList(tag.getFirstChild().getText().split("/")).get(1);
-                String entryUrl = DIARYURL + detail.substring(0, detail.length() - 1);
-                HalLabEntry latestEntry = new HalLabEntry(entryUrl);
-                print(latestEntry);
-            } catch (ParserException e) {
-                e.printStackTrace();
-            }
+            TagNode tag = (TagNode) nodeList.elementAt(0).getNextSibling().getNextSibling();
+            String detail = Arrays.asList(tag.getFirstChild().getText().split("/")).get(1);
+            String entryUrl = DIARYURL + detail.substring(0, detail.length() - 1);
+            HalLabEntry latestEntry = new HalLabEntry(entryUrl);
+            print(latestEntry);
         } else {
+            String[] diaryDetails = new String[10];
+            String[] titles = new String[10];
+            String[] dates  = new String[10];
+            String[] authorsAndJobs = new String[10];
+            Node node = nodeList.elementAt(0).getNextSibling().getNextSibling();
+            for (int i=0; i < 10; ++i) {
+                titles[i] = node.getFirstChild().getFirstChild().getText();
+                dates[i]  = node.getNextSibling().getFirstChild().getFirstChild().getText();
+                authorsAndJobs[i] = node.getNextSibling().getFirstChild().getNextSibling().getFirstChild().getText();
 
-            try {
-                Parser parser = new Parser(htmlSource(DIARYINDEX));
-                NodeList nodeList = parser.parse(new HasAttributeFilter("clear", "all"));
+                String detail = Arrays.asList(node.getFirstChild().getText().split("/")).get(1);
+                String diaryUrl = DIARYURL + detail.substring(0, detail.length() - 1);
+                diaryDetails[i] = diaryUrl;
 
-                String[] diaryDetails = new String[10];
-                String[] titles = new String[10];
-                String[] dates  = new String[10];
-                String[] authorsAndJobs = new String[10];
-                Node node = nodeList.elementAt(0).getNextSibling().getNextSibling();
-                for (int i=0; i < 10; ++i) {
-                    titles[i] = node.getFirstChild().getFirstChild().getText();
-                    dates[i]  = node.getNextSibling().getFirstChild().getFirstChild().getText();
-                    authorsAndJobs[i] = node.getNextSibling().getFirstChild().getNextSibling().getFirstChild().getText();
+                node = node.getNextSibling().getNextSibling();
+            }
 
-                    String detail = Arrays.asList(node.getFirstChild().getText().split("/")).get(1);
-                    String diaryUrl = DIARYURL + detail.substring(0, detail.length() - 1);
-                    diaryDetails[i] = diaryUrl;
-
-                    node = node.getNextSibling().getNextSibling();
+            if (args[0].equals("title")) {
+                for (int i = 0; i < 10; ++i) {
+                    System.out.print("(" + i + ")");
+                    System.out.println(authorsAndJobs[i] + " [ " + titles[i] + " ] ( " + dates[i] + ")");
                 }
-
-                if (args[0].equals("title")) {
-                    for (int i = 0; i < 10; ++i) {
-                        System.out.print("(" + i + ")");
-                        System.out.println(authorsAndJobs[i] + " [ " + titles[i] + " ] ( " + dates[i] + ")");
-                    }
-                } else {
-                    try {
-                        int id = Integer.parseInt(args[0]);
-                        String entryIn = diaryDetails[id];
-                        HalLabEntry entry = new HalLabEntry(entryIn);
-                        print(entry);
-                    }
-                    catch (NumberFormatException e) {
-                        e.printStackTrace();
-                    }
+            } else {
+                try {
+                    int id = Integer.parseInt(args[0]);
+                    String entryIn = diaryDetails[id];
+                    HalLabEntry entry = new HalLabEntry(entryIn);
+                    print(entry);
                 }
-            } catch (ParserException e) {
-                e.printStackTrace();
+                catch (NumberFormatException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
