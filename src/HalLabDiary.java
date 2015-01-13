@@ -37,7 +37,7 @@ public class HalLabDiary {
             String detail = Arrays.asList(node.getFirstChild().getText().split("/")).get(1);
             String entryUrl = DIARYURL + detail.substring(0, detail.length() - 1);
             HalLabEntry latestEntry = new HalLabEntry(entryUrl);
-            print(latestEntry);
+            printEntry(latestEntry);
         } else {
             String[] diaryDetails   = new String[10];
             String[] titles         = new String[10];
@@ -66,7 +66,7 @@ public class HalLabDiary {
                     int id = Integer.parseInt(args[0]);
                     String entryIn = diaryDetails[id];
                     HalLabEntry entry = new HalLabEntry(entryIn);
-                    print(entry);
+                    printEntry(entry);
                 }
                 catch (NumberFormatException e) {
                     e.printStackTrace();
@@ -97,7 +97,7 @@ public class HalLabDiary {
         }
     }
 
-    private static void print(HalLabEntry entry) {
+    private static void printEntry(HalLabEntry entry) {
         System.out.println("[Title ] " + entry.getTitle());
         System.out.println("[Date  ] " + entry.getDate());
         System.out.println("[Author] " + entry.getAuthor() + "(" + entry.getJob() + ")");
