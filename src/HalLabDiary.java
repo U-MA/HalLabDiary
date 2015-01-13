@@ -28,33 +28,28 @@ public class HalLabDiary {
             HalLabEntry latestEntry = new HalLabEntry(getEntryUrl(node));
             printEntry(latestEntry);
         } else {
-            String[] diaryDetails   = new String[10];
-            String[] titles         = new String[10];
-            String[] dates          = new String[10];
+            String[] diaryDetails = new String[10];
+            String[] titles = new String[10];
+            String[] dates = new String[10];
             String[] authorsAndJobs = new String[10];
-            for (int i=0; i < 10; ++i) {
-                titles[i] = node.getFirstChild().getFirstChild().getText();
-                dates[i]  = node.getNextSibling().getFirstChild().getFirstChild().getText();
-                authorsAndJobs[i] = node.getNextSibling().getFirstChild().getNextSibling().getFirstChild().getText();
-
+            for (int i = 0; i < 10; ++i) {
                 diaryDetails[i] = getEntryUrl(node);
+                titles[i] = getTitle(node);
+                dates[i] = getDate(node);
+                authorsAndJobs[i] = getAuthorAndJob(node);
 
                 node = node.getNextSibling().getNextSibling();
             }
 
             if (args[0].equals("title")) {
-                for (int i = 0; i < 10; ++i) {
-                    System.out.print("(" + i + ")");
-                    System.out.println(authorsAndJobs[i] + " [ " + titles[i] + " ] ( " + dates[i] + ")");
-                }
+                printTitles(titles, dates, authorsAndJobs, 10);
             } else {
                 try {
                     int id = Integer.parseInt(args[0]);
                     String entryIn = diaryDetails[id];
                     HalLabEntry entry = new HalLabEntry(entryIn);
                     printEntry(entry);
-                }
-                catch (NumberFormatException e) {
+                } catch (NumberFormatException e) {
                     e.printStackTrace();
                 }
             }
@@ -90,6 +85,13 @@ public class HalLabDiary {
         System.out.print(entry.getBody());
     }
 
+    private static void printTitles(String[] titles, String[] dates, String[] authorsAndJobs, int n) {
+        for (int i = 0; i < n; ++i) {
+            System.out.print("(" + i + ")");
+            System.out.println(authorsAndJobs[i] + " [ " + titles[i] + " ] ( " + dates[i] + ")");
+        }
+    }
+
     private static void usage() {
         System.out.println("Usage: java HalLabDiary <option>");
         System.out.println("");
@@ -118,4 +120,15 @@ public class HalLabDiary {
         return DIARYURL + detail.substring(0, detail.length() - 1);
     }
 
+    private static String getTitle(Node parent) {
+        return parent.getFirstChild().getFirstChild().getText();
+    }
+
+    private static String getDate(Node parent) {
+        return parent.getNextSibling().getFirstChild().getFirstChild().getText();
+    }
+
+    private static String getAuthorAndJob(Node parent) {
+        return parent.getNextSibling().getFirstChild().getNextSibling().getFirstChild().getText();
+    }
 }
