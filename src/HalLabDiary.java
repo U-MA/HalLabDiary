@@ -20,9 +20,7 @@ public class HalLabDiary {
         // show the latest entry
         if (args.length == 0) {
             try {
-                String parseIn = htmlSource(DIARYINDEX);
-
-                Parser parser = new Parser(parseIn);
+                Parser parser = new Parser(htmlSource(DIARYINDEX));
                 NodeList nodeList = parser.parse(new HasAttributeFilter("clear", "all"));
                 TagNode tag = (TagNode) nodeList.elementAt(0).getNextSibling().getNextSibling();
                 String detail = Arrays.asList(tag.getFirstChild().getText().split("/")).get(1);
@@ -46,9 +44,7 @@ public class HalLabDiary {
         } else {
 
             try {
-                String parserIn = htmlSource(DIARYINDEX);
-
-                Parser parser = new Parser(parserIn);
+                Parser parser = new Parser(htmlSource(DIARYINDEX));
                 NodeList nodeList = parser.parse(new HasAttributeFilter("clear", "all"));
 
                 String[] diaryDetails = new String[10];
