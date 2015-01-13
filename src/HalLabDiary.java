@@ -37,7 +37,7 @@ public class HalLabDiary {
                 e.printStackTrace();
             }
         }
-        else if (args[0].equals("help") ) { // show the usage
+        else if (args[0].equals("help") ) {
             System.out.println("Usage: java HalLabDiary <option>");
             System.out.println("");
             System.out.println("Description:");
