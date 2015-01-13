@@ -104,6 +104,10 @@ public class HalLabDiary {
         System.out.println("title: タイトル一覧の表示");
     }
 
+    // url内に記述されている日記のタイトルを取得するための
+    // 親となるNodeを取得する
+    //
+    // Note: HTMLソース全体の親ノードではない
     private static Node getParentNode(String url) {
         try {
             Parser parser = new Parser(htmlSource(url));
