@@ -1,7 +1,6 @@
 import org.htmlparser.Node;
 import org.htmlparser.Parser;
 import org.htmlparser.filters.HasAttributeFilter;
-import org.htmlparser.nodes.TagNode;
 import org.htmlparser.util.NodeList;
 import org.htmlparser.util.ParserException;
 
@@ -34,8 +33,8 @@ public class HalLabDiary {
 
         // show the latest entry
         if (args.length == 0) {
-            TagNode tag = (TagNode) nodeList.elementAt(0).getNextSibling().getNextSibling();
-            String detail = Arrays.asList(tag.getFirstChild().getText().split("/")).get(1);
+            Node node = nodeList.elementAt(0).getNextSibling().getNextSibling();
+            String detail = Arrays.asList(node.getFirstChild().getText().split("/")).get(1);
             String entryUrl = DIARYURL + detail.substring(0, detail.length() - 1);
             HalLabEntry latestEntry = new HalLabEntry(entryUrl);
             print(latestEntry);
