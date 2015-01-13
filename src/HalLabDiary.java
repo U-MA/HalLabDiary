@@ -25,8 +25,7 @@ public class HalLabDiary {
 
         // show the latest entry
         if (args.length == 0) {
-            String entryUrl = getEntryUrl(node);
-            HalLabEntry latestEntry = new HalLabEntry(entryUrl);
+            HalLabEntry latestEntry = new HalLabEntry(getEntryUrl(node));
             printEntry(latestEntry);
         } else {
             String[] diaryDetails   = new String[10];
