@@ -16,7 +16,7 @@ public class HalLabDiary {
 
     public static void main(String[] args) {
 
-        if (args[0].equals("help")) {
+        if ((args.length != 0) && args[0].equals("help")) {
             usage();
             System.exit(0);
         }
@@ -81,7 +81,7 @@ public class HalLabDiary {
     private static void printEntry(HalLabEntry entry) {
         System.out.println("[Title ] " + entry.getTitle());
         System.out.println("[Date  ] " + entry.getDate());
-        System.out.println("[Author] " + entry.getAuthor() + "(" + entry.getJob() + " )");
+        System.out.println("[Author] " + entry.getAuthor() + "(" + entry.getJob() + ")");
         System.out.print(entry.getBody());
     }
 
