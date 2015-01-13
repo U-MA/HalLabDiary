@@ -28,11 +28,7 @@ public class HalLabDiary {
                 String detail = Arrays.asList(tag.getFirstChild().getText().split("/")).get(1);
                 String entryUrl = DIARYURL + detail.substring(0, detail.length() - 1);
                 HalLabEntry latestEntry = new HalLabEntry(entryUrl);
-
-                System.out.println("[Title ] " + latestEntry.getTitle());
-                System.out.println("[Date  ] " + latestEntry.getDate());
-                System.out.println("[Author] " + latestEntry.getAuthor() + "(" + latestEntry.getJob() + ")");
-                System.out.print(latestEntry.getBody());
+                print(latestEntry);
             } catch (ParserException e) {
                 e.printStackTrace();
             }
@@ -82,10 +78,7 @@ public class HalLabDiary {
                         int id = Integer.parseInt(args[0]);
                         String entryIn = diaryDetails[id];
                         HalLabEntry entry = new HalLabEntry(entryIn);
-
-                        System.out.println(entry.getTitle());
-                        System.out.print(entry.getAuthor());
-                        System.out.println(entry.getBody());
+                        print(entry);
                     }
                     catch (NumberFormatException e) {
                         e.printStackTrace();
@@ -116,6 +109,13 @@ public class HalLabDiary {
             e.printStackTrace();
             return null;
         }
+    }
+
+    private static void print(HalLabEntry entry) {
+        System.out.println("[Title ] " + entry.getTitle());
+        System.out.println("[Date  ] " + entry.getDate());
+        System.out.println("[Author] " + entry.getAuthor() + "(" + entry.getJob() + ")");
+        System.out.print(entry.getBody());
     }
 
 }
