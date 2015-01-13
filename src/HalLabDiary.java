@@ -39,9 +39,9 @@ public class HalLabDiary {
             HalLabEntry latestEntry = new HalLabEntry(entryUrl);
             print(latestEntry);
         } else {
-            String[] diaryDetails = new String[10];
-            String[] titles = new String[10];
-            String[] dates  = new String[10];
+            String[] diaryDetails   = new String[10];
+            String[] titles         = new String[10];
+            String[] dates          = new String[10];
             String[] authorsAndJobs = new String[10];
             Node node = nodeList.elementAt(0).getNextSibling().getNextSibling();
             for (int i=0; i < 10; ++i) {
