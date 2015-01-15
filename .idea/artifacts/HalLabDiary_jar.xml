@@ -1,0 +1,13 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="HalLabDiary:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/HalLabDiary_jar</output-path>
+    <root id="archive" name="HalLabDiary.jar">
+      <element id="module-output" name="HalLabDiary" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/src/libs/filterbuilder.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/src/libs/htmlparser.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/src/libs/thumbelina.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/src/libs/htmllexer.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/src/libs/sitecapturer.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
