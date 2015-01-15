@@ -7,4 +7,3 @@ Screenshots
 -----
 
 <img src="./images/detail.png">
-<img src="./images/titles.png">
