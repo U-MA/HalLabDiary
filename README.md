@@ -13,4 +13,4 @@ Screenshots
 
 License
 -----
-Lesser General Public License version 3(LGPLv3)
+Lesser General Public License version 3 (LGPLv3)
