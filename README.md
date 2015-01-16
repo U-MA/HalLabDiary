@@ -10,3 +10,7 @@ Screenshots
 使用ライブラリ
 -----
 [HTML Parser](http://htmlparser.sourceforge.net/)
+
+License
+-----
+Lesser General Public License version 3(LGPLv3)
